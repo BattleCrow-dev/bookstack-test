@@ -1,9 +1,7 @@
-// scripts/bookstack.js
-
 const fetch = require('node-fetch');
 const marked = require('marked');
 
-const BOOKSTACK_URL = process.env.BOOKSTACK_URL; // например: https://mybookstackdemo.loca.lt
+const BOOKSTACK_URL = process.env.BOOKSTACK_URL;
 const API_TOKEN = process.env.BOOKSTACK_API_TOKEN;
 const API_EMAIL = process.env.BOOKSTACK_API_EMAIL;
 
@@ -28,11 +26,9 @@ const pageData = {
     <p><a href="${issue.html_url}">GitHub Issue</a></p>
   `,
   tags: ['github', 'issue'],
-  // Указываем родительскую книгу (book), если нужно
-  // book_id: 1
+  book_id: 1
 };
 
-// Функция для создания страницы
 async function createPage() {
   const response = await fetch(`${BOOKSTACK_URL}/api/pages`, {
     method: 'POST',
@@ -51,7 +47,6 @@ async function createPage() {
   }
 }
 
-// Функция для обновления страницы (можно искать по title)
 async function updatePage(pageId) {
   const response = await fetch(`${BOOKSTACK_URL}/api/pages/${pageId}`, {
     method: 'PUT',
@@ -70,6 +65,4 @@ async function updatePage(pageId) {
   }
 }
 
-// Здесь можно добавить логику поиска страницы по title или ID
-// Для упрощения пример создаёт новую страницу при каждом issue
 createPage();
