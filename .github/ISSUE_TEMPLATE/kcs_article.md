@@ -3,6 +3,7 @@ name: KCS: статья (Problem/Cause/Solution)
 about: Шаблон для фиксации знаний по методологии KCS
 title: "[KCS] "
 labels: ["kb"]
+assignees: ''
 ---
 
 ## Проблема
