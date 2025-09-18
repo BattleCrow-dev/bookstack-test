@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const marked = require('marked');
+const markedModule = require('marked');
 
 const BOOKSTACK_URL = process.env.BOOKSTACK_URL;
 const API_TOKEN = process.env.BOOKSTACK_API_TOKEN;
@@ -15,7 +15,7 @@ if (!issue) {
 
 const title = issue.title;
 const bodyMarkdown = issue.body || '';
-const bodyHTML = marked(bodyMarkdown);
+const bodyHTML = markedModule.marked(bodyMarkdown);
 
 const pageData = {
   name: title,
