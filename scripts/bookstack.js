@@ -2,6 +2,7 @@ const markedModule = require('marked');
 
 const BOOKSTACK_URL = process.env.BOOKSTACK_URL;
 const API_TOKEN = process.env.BOOKSTACK_API_TOKEN;
+const API_SECRET = process.env.BOOKSTACK_API_SECRET;
 const API_EMAIL = process.env.BOOKSTACK_API_EMAIL;
 
 const payload = JSON.parse(process.env.GITHUB_EVENT_PAYLOAD || '{}');
@@ -32,7 +33,7 @@ async function findPageByTitle(title) {
   const response = await fetch(`${BOOKSTACK_URL}/api/pages?search=${encodeURIComponent(title)}`, {
    method: 'GET',
    headers: {
-     'Authorization': `Token ${API_TOKEN},${API_EMAIL}`
+     'Authorization': `Token ${API_TOKEN},${API_SECRET}`
   }
 });
 
@@ -54,7 +55,7 @@ async function createPage() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${API_TOKEN},${API_EMAIL}`
+      'Authorization': `Token ${API_TOKEN},${API_SECRET}`
     },
     body: JSON.stringify(pageData)
   });
@@ -73,7 +74,7 @@ async function updatePage(pageId) {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${API_TOKEN},${API_EMAIL}`
+      'Authorization': `Token ${API_TOKEN},${API_SECRET}`
     },
     body: JSON.stringify(pageData)
   });

@@ -18,6 +18,7 @@ jobs:
         env:
           BOOKSTACK_URL: ${{ secrets.BOOKSTACK_URL }}
           BOOKSTACK_API_TOKEN: ${{ secrets.BOOKSTACK_API_TOKEN }}
+          BOOKSTACK_API_SECRET: ${{ secrets.BOOKSTACK_API_SECRET}}
           BOOKSTACK_API_EMAIL: ${{ secrets.BOOKSTACK_API_EMAIL }}
           GITHUB_EVENT_PAYLOAD: ${{ toJson(github.event) }}
         run: node scripts/bookstack.js
