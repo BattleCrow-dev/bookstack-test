@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const markedModule = require('marked');
 
 const BOOKSTACK_URL = process.env.BOOKSTACK_URL;
@@ -31,10 +30,12 @@ const pageData = {
 // Функция для поиска страницы по title
 async function findPageByTitle(title) {
   const response = await fetch(`${BOOKSTACK_URL}/api/pages?search=${encodeURIComponent(title)}`, {
-    headers: {
-      'Authorization': `Token ${API_TOKEN},${API_EMAIL}`
-    }
-  });
+   method: 'GET',
+   headers: {
+     'Authorization': `Token ${API_TOKEN},${API_EMAIL}`
+  }
+});
+
 
   if (!response.ok) {
     const text = await response.text();
