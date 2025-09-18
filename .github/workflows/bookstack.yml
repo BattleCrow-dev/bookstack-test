@@ -1,25 +1,66 @@
-name: Create BookStack Article
+name: Create BookStack Page on New Issue
 
 on:
   issues:
-    types: [opened, edited, closed]
+    types: [opened]
 
 jobs:
-  bookstack:
+  createPage:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install marked node-fetch
-
-      - name: Sync Issue to BookStack
+      - name: Create HTML and send to BookStack
         env:
+          BOOKSTACK_API_ID: ${{ secrets.BOOKSTACK_API_ID }}
+          BOOKSTACK_API_SECRET: ${{ secrets.BOOKSTACK_API_SECRET }}
           BOOKSTACK_URL: ${{ secrets.BOOKSTACK_URL }}
-          BOOKSTACK_API_TOKEN: ${{ secrets.BOOKSTACK_API_TOKEN }}
-          BOOKSTACK_API_SECRET: ${{ secrets.BOOKSTACK_API_SECRET}}
-          BOOKSTACK_API_EMAIL: ${{ secrets.BOOKSTACK_API_EMAIL }}
-          GITHUB_EVENT_PAYLOAD: ${{ toJson(github.event) }}
-        run: node scripts/bookstack.js
+          BOOKSTACK_BOOK_ID: ${{ secrets.BOOKSTACK_BOOK_ID }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          mkdir page-generator
+          cd page-generator
+          npm init -y > /dev/null
+          npm install marked node-fetch@2 > /dev/null
 
+          echo "const fetch = require('node-fetch');
+          const marked = require('marked');
+
+          const title = process.env.ISSUE_TITLE;
+          const body = process.env.ISSUE_BODY || 'Нет описания';
+          const url = process.env.ISSUE_URL;
+
+          const htmlBody = marked.parse(body);
+          const fullHtml = \`<p><strong>Связанная задача:</strong> <a href='\${url}'>\${url}</a></p>\n\${htmlBody}\`;
+
+          const payload = {
+            name: title,
+            book_id: process.env.BOOKSTACK_BOOK_ID,
+            html: fullHtml
+          };
+
+          fetch(\`\${process.env.BOOKSTACK_URL}/api/pages\`, {
+            method: 'POST',
+            headers: {
+              'Authorization': \`Token \${process.env.BOOKSTACK_API_ID}:\${process.env.BOOKSTACK_API_SECRET}\`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+          .then(res => {
+            if (!res.ok) {
+              console.error('Failed to create page:', res.status, res.statusText);
+              return res.text().then(text => console.error(text));
+            } else {
+              console.log('Page created successfully');
+            }
+          })
+          .catch(err => console.error('Request error:', err));
+          " > create-page.js
+
+          node create-page.js
