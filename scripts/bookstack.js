@@ -1,9 +1,7 @@
-// scripts/bookstack.js
-
 const fetch = require('node-fetch');
 const marked = require('marked');
 
-const BOOKSTACK_URL = process.env.BOOKSTACK_URL; // например: https://mybookstackdemo.loca.lt
+const BOOKSTACK_URL = process.env.BOOKSTACK_URL;
 const API_TOKEN = process.env.BOOKSTACK_API_TOKEN;
 const API_EMAIL = process.env.BOOKSTACK_API_EMAIL;
 
