@@ -5,6 +5,11 @@ const API_TOKEN = process.env.BOOKSTACK_API_TOKEN;
 const API_SECRET = process.env.BOOKSTACK_API_SECRET;
 const API_EMAIL = process.env.BOOKSTACK_API_EMAIL;
 
+console.log('BOOKSTACK_URL:', process.env.BOOKSTACK_URL ? 'exists' : 'missing');
+console.log('BOOKSTACK_API_TOKEN:', process.env.BOOKSTACK_API_TOKEN ? 'exists' : 'missing');
+console.log('BOOKSTACK_API_EMAIL:', process.env.BOOKSTACK_API_EMAIL ? 'exists' : 'missing');
+
+
 const payload = JSON.parse(process.env.GITHUB_EVENT_PAYLOAD || '{}');
 const issue = payload.issue;
 
