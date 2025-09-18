@@ -38,7 +38,7 @@ async function findPageByTitle(title) {
   const response = await fetch(`${BOOKSTACK_URL}/api/pages?search=${encodeURIComponent(title)}`, {
    method: 'GET',
    headers: {
-     'Authorization': `Token ${API_TOKEN},${API_SECRET}`
+     'Authorization': 'Token ${API_TOKEN},${API_SECRET}'
   }
 });
 
@@ -60,7 +60,7 @@ async function createPage() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${API_TOKEN},${API_SECRET}`
+      'Authorization': 'Token ${API_TOKEN},${API_SECRET}'
     },
     body: JSON.stringify(pageData)
   });
@@ -79,7 +79,7 @@ async function updatePage(pageId) {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Token ${API_TOKEN},${API_SECRET}`
+      'Authorization': 'Token ${API_TOKEN},${API_SECRET}'
     },
     body: JSON.stringify(pageData)
   });
